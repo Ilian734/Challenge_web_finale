@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="login-page">
+    <div class="login-block">
+        <h1 class="login-title">🎥 Connexion</h1>
+        <p class="login-subtitle">Rejoignez l'univers du cinéma</p>
+        
+        <form method="post" class="login-form">
+            {# Affichage des messages d'erreur #}
+            {% for message in app.flashes('error') %}
+                <div class="login-error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="login-button">Se connecter</button>
+            </div>
+        </form>
+
+        <div class="login-footer">
+            <p class="signup-prompt">Pas encore inscrit ? <a href="/register" class="signup-link">Créer un compte</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

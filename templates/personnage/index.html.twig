@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des personnages{% endblock %}
+
+{% block body %}
+    <div class="characters-container">
+        <h1>Liste des personnages</h1>
+
+        <table class="characters-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Films</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for personnage in personnages %}
+                    <tr>
+                        <!-- Image cliquable -->
+                        <td>
+                            <a href="{{ path('personnage_detail', {'id': personnage.id}) }}">
+                                <img src="{{ personnage.getImagePersonnage() }}" alt="{{ personnage.getNom() }}" class="personnage-image">
+                            </a>
+                        </td>
+                        <td>{{ personnage.getNom() }}</td>
+                        <td>{{ personnage.getPrenom() }}</td>
+                        <td>
+                            {% for film in personnage.getFilms() %}
+                                <a href="{{ path('film_show', {'id': film.id}) }}" class="film-link">{{ film.getNom() }}</a>
+                                {% if not loop.last %}, {% endif %}
+                            {% else %}
+                                Aucun film
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun personnage trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+<div class="profile-container">
+    <h1 class="profile-title">Profil de {{ users.pseudo }}</h1>
+
+    <h2>Vos likes :</h2>
+    {% if likedFilms is empty %}
+        <p class="empty-list-message">Vous n'avez pas encore liké de films.</p>
+    {% else %}
+        <ul class="liked-films-list">
+            {% for like in likedFilms %}
+                <li class="liked-film-item">
+                    <div>
+                        <h3>
+                            <a href="{{ path('film_show', {'id': like.film.id}) }}">
+                                {{ like.film.nom }}
+                            </a>
+                        </h3>
+                        <p>{{ like.film.description }}</p>
+                        <!-- Bouton Dislike -->
+                        <form action="{{ path('app_profil') }}" method="POST">
+                            <input type="hidden" name="film_id" value="{{ like.film.id }}">
+                            <button type="submit" class="dislike-button">👎 Dislike</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+{% endblock %}

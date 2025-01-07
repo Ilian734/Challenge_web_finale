@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des films{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <h1 class="films-title">Liste des films</h1>
+
+    <!-- Carousel des films -->
+    <div class="film-carousel">
+        <div class="film-carousel-container">
+            {% for film in films %}
+                <a href="{{ path('film_show', {'id': film.id}) }}" class="film-carousel-item">
+                    <img src="{{ film.getImage() }}" alt="{{ film.getNom() }}" class="film-carousel-image">
+                    <h2 class="film-carousel-title">{{ film.getNom() }}</h2>
+                    <p class="film-carousel-duration">Durée : {{ film.getDuree() }} minutes</p>
+                    <p class="film-carousel-rating">Note : {{ film.getNoteGenerale() }} / 10</p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Liste des films -->
+    <div class="film-list">
+        <ul>
+            {% for film in films %}
+                <li class="film-list-item">
+                    <a href="{{ path('film_show', {'id': film.id}) }}" class="film-list-image-link">
+                        <img src="{{ film.getImage() }}" alt="{{ film.getNom() }}" class="film-list-image">
+                    </a>
+                    <div class="film-info">
+                        <h3 class="film-list-title">{{ film.getNom() }}</h3>
+                        <p class="film-list-duration">Durée : {{ film.getDuree() }} minutes</p>
+                        <p class="film-list-description">Description : {{ film.getDescription() }}</p>
+                        <p class="film-list-rating">Note générale : {{ film.getNoteGenerale() }} / 10</p>
+                        <p class="film-list-actors">
+                            Personnages :
+                            {% for personnage in film.getPersonnages() %}
+                                <a href="{{ path('personnage_detail', {'id': personnage.id}) }}" class="actor-link">
+                                    {{ personnage.getNom() }} {{ personnage.getPrenom() }}
+                                </a>{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                Aucun personnage trouvé
+                            {% endfor %}
+                        </p>
+                    </div>
+                            <!-- Formulaire de Like -->
+                        <form action="{{ path('app_film_like', {'id': film.id}) }}" method="POST">
+                            <button type="submit" class="like-button">❤️ Like</button>
+                        </form>
+
+
+
+                </li>
+            {% else %}
+                <li class="film-list-empty">Aucun film trouvé</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
